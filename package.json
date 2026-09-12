@@ -16,6 +16,7 @@
   "dependencies": {
     "@slack/bolt": "^4.4.0",
     "dotenv": "^16.6.1",
+    "officeparser": "^7.8.0",
     "openai": "^5.19.1",
     "zod": "^3.25.76"
   },

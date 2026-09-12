@@ -36,7 +36,7 @@ Expected: a usage hint. The bot must not call OpenAI or crash.
 
 ## 5. Long input
 
-Paste a full page of representative contract text. Confirm Slack immediately shows “Analyzing your clause...” and later supplies a result or friendly error.
+Paste a full agreement or any input longer than 4,000 characters. Expected: a clear prompt to select one clause, rather than a model call or a generic error.
 
 ## 6. API-credit failure
 

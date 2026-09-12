@@ -27,4 +27,11 @@ describe("analyzeClause", () => {
     await expect(analyzeClause("Vendor shall indemnify Customer.", createClient('{"riskLevel":"critical"}'))).rejects.toThrow();
     consoleError.mockRestore();
   });
+
+  it("accepts a JSON response prefixed by an OpenRouter provider message", async () => {
+    const response = `User Safety: safe\n\n${JSON.stringify(validAnalysis)}`;
+
+    await expect(analyzeClause("Vendor shall indemnify Customer.", createClient(response)))
+      .resolves.toEqual(validAnalysis);
+  });
 });
