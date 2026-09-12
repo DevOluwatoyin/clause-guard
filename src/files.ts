@@ -1,7 +1,7 @@
 import { OfficeParser } from "officeparser";
 
 const MAX_FILE_BYTES = 10 * 1024 * 1024;
-const TEXT_EXTENSIONS = new Set(["txt", "pdf", "docx", "pptx", "ppt"]);
+const TEXT_EXTENSIONS = new Set(["txt", "md", "text", "pdf", "docx", "pptx", "ppt"]);
 const IMAGE_EXTENSIONS = new Set(["png", "jpg", "jpeg", "webp"]);
 
 export type UploadedDocument = { filename: string; text?: string; imageDataUrl?: string };
@@ -30,7 +30,7 @@ export async function extractUploadedDocument(buffer: Buffer, filename: string):
   if (!TEXT_EXTENSIONS.has(ext)) {
     throw new Error("UNSUPPORTED_FILE");
   }
-  if (ext === "txt") {
+  if (ext === "txt" || ext === "md" || ext === "text") {
     const text = buffer.toString("utf8").trim();
     if (!text) throw new Error("NO_EXTRACTABLE_TEXT");
     return { filename, text };

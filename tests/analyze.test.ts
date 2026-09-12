@@ -34,4 +34,27 @@ describe("analyzeClause", () => {
     await expect(analyzeClause("Vendor shall indemnify Customer.", createClient(response)))
       .resolves.toEqual(validAnalysis);
   });
+
+  it("normalizes capitalized risk levels like High or HIGH", async () => {
+    const response = JSON.stringify({
+      riskLevel: "High",
+      explanation: "Unlimited liability.",
+      suggestedRedline: "Limit liability to contract value."
+    });
+
+    const result = await analyzeClause("Vendor shall indemnify Customer.", createClient(response));
+    expect(result.riskLevel).toBe("high");
+  });
+
+  it("normalizes snake_case keys and markdown code fences", async () => {
+    const response = "```json\n" + JSON.stringify({
+      risk_level: "MEDIUM",
+      explanation: "Moderate risk clause.",
+      suggested_redline: "Balanced redline clause."
+    }) + "\n```";
+
+    const result = await analyzeClause("Vendor shall indemnify Customer.", createClient(response));
+    expect(result.riskLevel).toBe("medium");
+    expect(result.suggestedRedline).toBe("Balanced redline clause.");
+  });
 });
